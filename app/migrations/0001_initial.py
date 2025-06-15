@@ -44,6 +44,7 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
         ),
+<<<<<<< HEAD
         migrations.CreateModel(
             name='FinalPaymentSubmission',
             fields=[
@@ -59,4 +60,6 @@ class Migration(migrations.Migration):
                 ('created_at', models.DateTimeField(auto_now_add=True)),
             ],
         ),
+=======
+>>>>>>> 3d0908f67f7c764f5057b0fddbb209d68a7e97e3
     ]
