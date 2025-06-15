@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
+
+from .models import *
 import os
 
 # Create your views here.
@@ -182,7 +184,7 @@ def payment_success_view(request):
     return render(request, 'payment_success.html', context)
 
 def about_view(request):
-    return render(request, 'core/about.html')
+    return render(request, 'about.html')
 
 def contact_view(request):
     """
@@ -199,7 +201,7 @@ def contact_view(request):
             {"day": "Sunday", "hours": "Closed"}
         ]
     }
-    return render(request, 'core/contact.html')
+    return render(request, 'contact.html', context)
 
 @require_POST
 def contact_submit_view(request):
@@ -234,7 +236,7 @@ def contact_submit_view(request):
     # )
     
     messages.success(request, "Thank you for your message! We'll get back to you within 24 hours.")
-    return redirect('core:contact')
+    return redirect('app:contact')
 
 def how_it_works_view(request):
     return render(request, 'core/how_it_works.html')
