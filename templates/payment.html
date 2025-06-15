@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - ResearchSupportDesk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://sdk.monnify.com/plugin/monnify.js"></script>
+</head>
+<body class="min-h-screen bg-gray-50">
+  {% if messages %}
+    <div class="container mx-auto px-4 py-4">
+      {% for message in messages %}
+        <div class="bg-{{ message.tags }}-100 border border-{{ message.tags }}-200 text-{{ message.tags }}-800 p-4 rounded-md mb-4">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if not booking_data %}
+    <div class="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div class="text-center">
+        <p class="text-gray-600 mb-4">No booking details found.</p>
+        <a href="{% url 'app:services' %}" class="text-blue-600 hover:text-blue-700 underline">
+          Go back to services
+        </a>
+      </div>
+    </div>
+  {% else %}
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b">
+      <div class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div class="text-2xl font-bold text-gray-900">
+            RESEARCH<span class="text-blue-600">SupportDesk</span>
+          </div>
+          <div class="text-sm text-gray-600">Secure Payment</div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Payment Section -->
+    <section class="py-12">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Complete Your Payment</h1>
+            <p class="text-gray-600">Secure payment powered by Monnify</p>
+          </div>
+
+          <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Order Summary -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h2 class="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
+
+              <!-- Customer Info -->
+              <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                <h3 class="font-medium text-gray-900 mb-2">Customer Information</h3>
+                <div class="text-sm text-gray-600 space-y-1">
+                  <p><strong>Name:</strong> {{ booking_data.fullName }}</p>
+                  <p><strong>Email:</strong> {{ booking_data.email }}</p>
+                  <p><strong>Phone:</strong> {{ booking_data.phoneNumber }}</p>
+                  <p><strong>Institution:</strong> {{ booking_data.institution }}</p>
+                  <p><strong>Level:</strong> {{ booking_data.academicLevel }}</p>
+                </div>
+              </div>
+
+              <!-- Selected Services -->
+              <div class="mb-6">
+                <h3 class="font-medium text-gray-900 mb-3">Selected Services</h3>
+                <div class="space-y-2">
+                  {% for service in selected_services %}
+                    <div class="flex items-center space-x-3 p-2 bg-blue-50 rounded">
+                      <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                      <span class="text-sm text-gray-900">{{ service.title }}</span>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <!-- Pricing -->
+              <div class="border-t border-gray-200 pt-4">
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-gray-600">Consultation Fee</span>
+                  <span class="text-gray-900">₦5,000</span>
+                </div>
+                <div class="flex justify-between items-center mb-2">
+                  <span class="text-gray-600">Services ({{ selected_services|length }})</span>
+                  <span class="text-gray-900">Included</span>
+                </div>
+                <div class="flex justify-between items-center text-lg font-bold border-t border-gray-200 pt-2">
+                  <span>Total</span>
+                  <span class="text-blue-600">₦5,000</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Form -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h2 class="text-xl font-bold text-gray-900 mb-6">Payment Details</h2>
+
+              <!-- Security Notice -->
+              <div class="flex items-center space-x-3 p-4 bg-green-50 border border-green-200 rounded-lg mb-6">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+                <div class="text-sm">
+                  <p class="font-medium text-green-800">Secure Payment</p>
+                  <p class="text-green-600">Your payment is protected by 256-bit SSL encryption</p>
+                </div>
+              </div>
+
+              <!-- Payment Method -->
+              <div class="mb-6">
+                <h3 class="font-medium text-gray-900 mb-3">Payment Method</h3>
+                <div class="border border-gray-200 rounded-lg p-4">
+                  <div class="flex items-center space-x-3">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                    </svg>
+                    <div>
+                      <p class="font-medium text-gray-900">Monnify Payment Gateway</p>
+                      <p class="text-sm text-gray-600">Pay with card, bank transfer, or USSD</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- What happens next -->
+              <div class="mb-6 p-4 bg-blue-50 rounded-lg">
+                <h3 class="font-medium text-blue-800 mb-2 flex items-center">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  What happens after payment?
+                </h3>
+                <ul class="text-sm text-blue-700 space-y-1">
+                  <li>• Instant payment confirmation</li>
+                  <li>• Expert assignment within 2 hours</li>
+                  <li>• Contact within 24 hours</li>
+                  <li>• Project discussion and timeline</li>
+                </ul>
+              </div>
+
+              <!-- Pay Button -->
+              <button
+                id="pay-btn"
+                class="w-full py-4 px-6 rounded-lg font-medium text-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+              >
+                Pay ₦5,000 with Monnify
+              </button>
+
+              <p class="text-xs text-gray-500 text-center mt-4">
+                By proceeding, you agree to our Terms of Service and Privacy Policy
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hidden Form for Payment Confirmation -->
+      <form id="payment-confirm-form" action="{% url 'app:payment_confirm' %}" method="POST" class="hidden">
+        {% csrf_token %}
+        <input type="hidden" name="transactionRef" id="transactionRef">
+        <input type="hidden" name="paymentRef" id="paymentRef">
+      </form>
+
+      <!-- JavaScript -->
+      <script>
+        const payBtn = document.getElementById('pay-btn');
+        const paymentForm = document.getElementById('payment-confirm-form');
+        const transactionRefInput = document.getElementById('transactionRef');
+        const paymentRefInput = document.getElementById('paymentRef');
+
+        payBtn.addEventListener('click', () => {
+          payBtn.disabled = true;
+          payBtn.innerHTML = `
+            <div class="flex items-center justify-center space-x-2">
+              <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              <span>Processing Payment...</span>
+            </div>
+          `;
+          
+          MonnifySDK.initialize({
+            amount: 5000,
+            currency: "NGN",
+            reference: `TXN_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+            customerFullName: "{{ booking_data.fullName|escapejs }}",
+            customerEmail: "{{ booking_data.email|escapejs }}",
+            apiKey: "MK_TEST_63HZGTJKQH",
+            contractCode: "5172654971",
+            paymentDescription: "ResearchSupportDesk Consultation Fee",
+            metadata: {
+              name: "{{ booking_data.fullName|escapejs }}",
+              institution: "{{ booking_data.institution|escapejs }}",
+            },
+            onLoadStart: () => {
+              console.log("Monnify loading started");
+            },
+            onLoadComplete: () => {
+              console.log("Monnify SDK loaded");
+            },
+            onComplete: (response) => {
+              console.log("Monnify Response:", response);
+              if (response.status === "SUCCESS") {
+                transactionRefInput.value = response.transactionReference;
+                paymentRefInput.value = response.paymentReference;
+                paymentForm.submit();
+              } else {
+                alert("Payment failed. Please try again.");
+                payBtn.disabled = false;
+                payBtn.innerHTML = "Pay ₦5,000 with Monnify";
+              }
+            },
+            onClose: (data) => {
+              console.log("Monnify Modal Closed:", data);
+              payBtn.disabled = false;
+              payBtn.innerHTML = "Pay ₦5,000 with Monnify";
+            },
+          });
+        });
+      </script>
+  {% endif %}
+</body>
+</html>

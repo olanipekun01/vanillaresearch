@@ -1,0 +1,264 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - ResearchSupportDesk</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen">
+  {% if messages %}
+    <div class="container mx-auto px-4 py-4">
+      {% for message in messages %}
+        <div class="bg-{{ message.tags }}-100 border border-{{ message.tags }}-200 text-{{ message.tags }}-800 p-4 rounded-md mb-4">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm border-b">
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="text-2xl font-bold text-gray-900">
+          RESEARCH<span class="text-blue-600">SupportDesk</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="{% url 'app:home' %}" class="text-gray-600 hover:text-blue-600 transition-colors">Home</a>
+          <a href="{% url 'app:about' %}" class="text-blue-600 font-medium">About</a>
+          <a href="{% url 'app:services' %}" class="text-gray-600 hover:text-blue-600 transition-colors">Services</a>
+          <a href="{% url 'app:contact' %}" class="text-gray-600 hover:text-blue-600 transition-colors">Contact</a>
+        </div>
+        <button id="get-started-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition-colors">
+          Get Started
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="py-20 bg-gradient-to-r from-slate-900 via-slate-900 to-blue-600">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">About ResearchSupportDesk</h1>
+        <p class="text-xl text-white leading-relaxed">
+          We are a team of dedicated academic professionals committed to empowering students and researchers across
+          Nigeria with expert guidance, comprehensive support, and innovative solutions for their research journey.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Story -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
+          <div class="space-y-6 text-gray-600 leading-relaxed">
+            <p>
+              ResearchSupportDesk was founded in 2025 with a simple yet powerful vision: to bridge the gap between
+              ambitious students and successful research outcomes. Dr. Olaolorunpo Olorunfemi holds the distinguished
+              position of Associate Professor and is a leading authority in multiple areas of health research, contributing 
+              significantly to advancements in the field.
+            </p>
+            <p>
+              Having supervised numerous undergraduate and graduate students, Dr. Olaolorunpo Olorunfemi observed that many
+              brilliant minds struggled not with their ideas, but with the technical aspects of research
+              methodology, data analysis, and academic writing. This insight led to the creation of ResearchSupportDesk.
+            </p>
+            <p>
+              Today, we have grown into a comprehensive research support platform, helping students from over 50
+              universities across Nigeria achieve their academic goals. Our success is measured not just in
+              completed projects, but in the confidence and skills our clients gain throughout their research
+              journey.
+            </p>
+          </div>
+        </div>
+        <div class="relative">
+          <img
+            src="{% static 'app/images/about_profile.jpeg' %}"
+            alt="Research team collaboration"
+            class="rounded-lg shadow-lg w-full max-w-[400px] h-[300px] object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission, Vision, Values -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Mission & Values</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          We are driven by a commitment to academic excellence and student success.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 mb-16">
+        <div class="bg-white p-8 rounded-xl shadow-sm">
+          <div class="flex items-center mb-4">
+            <svg class="w-8 h-8 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-2xl font-bold text-gray-900">Our Mission</h3>
+          </div>
+          <p class="text-gray-600 leading-relaxed">
+            To empower students and researchers with expert guidance, innovative tools, and comprehensive support
+            that transforms their research ideas into impactful academic achievements.
+          </p>
+        </div>
+
+        <div class="bg-white p-8 rounded-xl shadow-sm">
+          <div class="flex items-center mb-4">
+            <svg class="w-8 h-8 text-red-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+            </svg>
+            <h3 class="text-2xl font-bold text-gray-900">Our Vision</h3>
+          </div>
+          <p class="text-gray-600 leading-relaxed">
+            To become a global leading research support platform, fostering a generation of confident, skilled
+            researchers who contribute meaningfully to knowledge and society.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-lg mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <h4 class="text-xl font-bold text-gray-900 mb-3">Academic Excellence</h4>
+          <p class="text-gray-600">
+            We maintain the highest standards of academic rigor and quality in all our research support services.
+          </p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-lg mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+          </div>
+          <h4 class="text-xl font-bold text-gray-900 mb-3">Student-Centered Approach</h4>
+          <p class="text-gray-600">
+            Every service is tailored to meet the unique needs and goals of each student and researcher.
+          </p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 bg-purple-100 text-purple-600 rounded-lg mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+          </div>
+          <h4 class="text-xl font-bold text-gray-900 mb-3">Integrity & Confidentiality</h4>
+          <p class="text-gray-600">
+            We uphold the highest ethical standards and ensure complete confidentiality of all client information.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistics -->
+  <section class="py-20 bg-blue-600">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Our Impact in Numbers</h2>
+        <p class="text-xl text-blue-100">Trusted by students across Nigeria</p>
+      </div>
+      <div class="grid md:grid-cols-4 gap-8">
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-white mb-2">150+</div>
+          <div class="text-blue-100 font-medium">Projects Completed</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-white mb-2">98%</div>
+          <div class="text-blue-100 font-medium">Client Satisfaction</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-white mb-2">50+</div>
+          <div class="text-blue-100 font-medium">Universities Served</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl md:text-5xl font-bold text-white mb-2">5+</div>
+          <div class="text-blue-100 font-medium">Years Experience</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Ready to Start Your Research Journey?</h2>
+        <p class="text-xl text-gray-600 mb-8">
+          Join hundreds of successful students who have achieved their academic goals with ResearchSupportDesk.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button id="book-consultation-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-md font-medium transition-colors">
+            Book a Consultation
+          </button>
+          <button id="view-services-btn" class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-4 text-lg rounded-md font-medium transition-colors">
+            View Our Services
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-lg font-bold mb-4">ResearchSupportDesk</h3>
+          <p class="text-gray-400">
+            Empowering students and researchers with expert guidance and innovative solutions.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+          <ul class="space-y-2">
+            <li><a href="{% url 'app:home' %}" class="text-gray-400 hover:text-white">Home</a></li>
+            <li><a href="{% url 'app:about' %}" class="text-gray-400 hover:text-white">About</a></li>
+            <li><a href="{% url 'app:services' %}" class="text-gray-400 hover:text-white">Services</a></li>
+            <li><a href="{% url 'app:contact' %}" class="text-gray-400 hover:text-white">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Contact Us</h3>
+          <p class="text-gray-400">Email: <a href="mailto:info@researchsupportdesk.com" class="hover:text-white">info@researchsupportdesk.com</a></p>
+          <p class="text-gray-400">Phone: <a href="tel:+2348123456789" class="hover:text-white">+234 812 345 6789</a></p>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">Follow Us</h3>
+          <p class="text-gray-400">Stay updated on social media.</p>
+          <!-- Add social media links if available -->
+        </div>
+      </div>
+      <div class="mt-8 text-center text-gray-400">
+        &copy; 2025 ResearchSupportDesk. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    document.getElementById('get-started-btn').addEventListener('click', () => {
+      window.location.href = "{% url 'app:services' %}";
+    });
+    document.getElementById('book-consultation-btn').addEventListener('click', () => {
+      window.location.href = "{% url 'app:services' %}";
+    });
+    document.getElementById('view-services-btn').addEventListener('click', () => {
+      window.location.href = "{% url 'app:services' %}";
+    });
+  </script>
+</body>
+</html>
