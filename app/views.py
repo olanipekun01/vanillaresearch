@@ -244,3 +244,125 @@ def testimonials_view(request):
 
 def faq_view(request):
     return render(request, 'core/faq.html')
+
+def finalize_payment_view(request):
+    """
+    Render the finalize payment page post-consultation.
+    """
+    step = request.GET.get('step', '1')
+    try:
+        step = int(step)
+        if step not in [1, 2, 3, 4]:
+            step = 1
+    except ValueError:
+        step = 1
+    
+    # Assume consultation_data is set post-consultation
+    consultation_data = request.session.get('consultation_data', {})
+    service_ids = request.session.get('selected_services', [])  # Reusing selected_services
+    selected_services = [
+        {'id': sid, 'title': SERVICES.get(sid, {}).get('title', "Unknown Service"), 'price': SERVICES.get(sid, {}).get('price', 0)}
+        for sid in service_ids if sid in SERVICES
+    ]
+    total_amount = sum(service.get('price', 0) for service in selected_services)
+    
+    if not consultation_data or not selected_services:
+        messages.error(request, "No consultation data found. Please complete the consultation process.")
+        return redirect('core:services')
+    
+    bank_details = {
+        'bankName': "First Bank of Nigeria",
+        'accountName': "ResearchSupportDesk Limited",
+        'accountNumber': "2034567890",
+        'sortCode': "011",
+    }
+    
+    context = {
+        'consultation_data': consultation_data,
+        'selected_services': selected_services,
+        'total_amount': total_amount,
+        'bank_details': bank_details,
+        'current_step': step,
+    }
+    return render(request, 'core/finalize_payment.html', context)
+
+@require_POST
+def finalize_payment_submit_view(request):
+    """
+    Process payment proof submission for final payment.
+    """
+    full_name = request.POST.get('fullName')
+    email = request.POST.get('email')
+    phone_number = request.POST.get('phoneNumber')
+    institution = request.POST.get('institution')
+    additional_notes = request.POST.get('additionalNotes')
+    payment_proof = request.FILES.get('paymentProof')
+    
+    required_fields = ['fullName', 'email', 'phoneNumber', 'institution', 'paymentProof']
+    missing_fields = [field for field in required_fields if not request.POST.get(field) and not request.FILES.get(field)]
+    if missing_fields:
+        messages.error(request, f"Please fill in all required fields: {', '.join(missing_fields)}.")
+        return redirect('core:finalize_payment')
+    
+    if payment_proof:
+        allowed_types = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf']
+        max_size = 5 * 1024 * 1024  # 5MB
+        if payment_proof.content_type not in allowed_types']:
+            messages.error(request, "Please upload a valid image (JPG, PNG) or PDF file.")
+            return redirect('core:finalize_payment')
+        if payment_proof.size > max_size:
+            messages.error(request, "File size must be less than 5MB.")
+            return redirect('core:finalize_payment')
+        
+        fs = FileSystemStorage(location='media/final_payment_proofs/')
+        filename = fs.save(payment_proof.name, payment_proof)
+        file_path = os.path.join('media/final_payment_proofs/', filename)
+    
+    service_ids = request.session.get('selected_services', [])
+    selected_services = [
+        {'id': sid, 'title': 'SERVICES.get(sid, {}).get('title', 'Unknown Service'), 'price': 'SERVICES.get(sid, {}).get('price', '0')}
+        for sid in service_ids if sid in SERVICES
+    ]
+    total_amount = sum(service.get('price', 0) for service in selected_services)
+    
+    # Save to FinalPaymentSubmission model
+    submission = FinalPaymentSubmission(
+        full_name=full_name,
+        email=email,
+        phone_number=phone_number,
+        institution=institution,
+        additional_notes=additional_notes,
+        payment_proof=filename,
+        total_amount=total_amount,
+    )
+    submission.set_services(selected_services)
+    submission.save()
+    
+    print(f"Final Payment Proof Submission: FullName={full_name}, Email={email}, Phone={phone_number}, "
+          f"Institution={institution}, Notes={additional_notes}, File={file_path if payment_proof else 'None'}, "
+          f"Services={selected_services}, Total=₦{total_amount}")
+    
+    request.session['final_payment_submitted'] = True
+    request.session.modified = True
+    return redirect('core:finalize_payment?step=4')
+
+
+@require_POST
+def consultation_complete_view(request):
+    consultation_data = {
+        'fullName': request.POST.get('fullName'),
+        'email': request.POST.get('email'),
+        'phoneNumber': request.POST.get('phoneNumber'),
+        'institution': request.POST.get('institution'),
+    }
+    service_ids = request.POST.getlist('services')  # From consultation form
+    try:
+        service_ids = [int(sid) for sid in service_ids if int(sid) in SERVICES]
+    except ValueError:
+        messages.error(request, "Invalid service selection.")
+        return redirect('core:services')
+    
+    request.session['consultation_data'] = consultation_data
+    request.session['selected_services'] = service_ids
+    request.session.modified = True
+    return redirect('core:finalize_payment')
