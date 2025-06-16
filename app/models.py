@@ -14,6 +14,7 @@ class Booking(models.Model):
     contact_method = models.CharField(max_length=50)
     services = models.TextField()  # Store JSON as string
     created_at = models.DateTimeField(auto_now_add=True)
+    transaction_ref = models.CharField(max_length=100, default=True, blank=True)
 
     def set_services(self, services_data):
         """Serialize services data to JSON string."""
@@ -36,6 +37,7 @@ class ContactInquiry(models.Model):
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+
 class FinalPaymentSubmission(models.Model):
     full_name = models.CharField(max_length=255)
     email = models.EmailField()
@@ -43,17 +45,17 @@ class FinalPaymentSubmission(models.Model):
     institution = models.CharField(max_length=255)
     additional_notes = models.TextField(blank=True)
     payment_proof = models.FileField(upload_to='final_payment_proofs/')
-    services = models.TextField()  # Store JSON as string
+    # services = models.TextField()  # Store JSON as string
     total_amount = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def set_services(self, services_data):
-        """Serialize services data to JSON string."""
-        self.services = json.dumps(services_data)
+    # def set_services(self, services_data):
+    #     """Serialize services data to JSON string."""
+    #     self.services = json.dumps(services_data)
 
-    def get_services(self):
-        """Deserialize JSON string to Python object."""
-        return json.loads(self.services) if self.services else []
+    # def get_services(self):
+    #     """Deserialize JSON string to Python object."""
+    #     return json.loads(self.services) if self.services else []
 
     class Meta:
         verbose_name = "Final Payment Submission"

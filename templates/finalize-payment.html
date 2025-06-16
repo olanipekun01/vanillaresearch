@@ -103,11 +103,11 @@
       <div class="max-w-4xl mx-auto">
         <!-- Step 1: Review Services -->
         {% if current_step == 1 %}
-          <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+          <form method="get" action="{% url 'app:finalize_payment' %}" class="firstform bg-white rounded-xl shadow-sm border border-gray-200 p-8">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Review Your Selected Services</h2>
 
             <!-- Instructions -->
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+            <!-- <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
               <h3 class="font-bold text-blue-800 mb-3">Instructions:</h3>
               <ul class="text-blue-700 space-y-2">
                 <li>• Review your agreed service items and their prices</li>
@@ -117,8 +117,8 @@
               </ul>
             </div>
 
-            <!-- Services List -->
-            <div class="space-y-4 mb-8">
+            Services List -->
+            <!-- <div class="space-y-4 mb-8">
               {% for service in selected_services %}
                 <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                   <div class="flex items-center space-x-3">
@@ -130,21 +130,27 @@
                   <span class="font-bold text-blue-600">₦{{ service.price|floatformat:0 }}</span>
                 </div>
               {% endfor %}
-            </div>
+            </div> --> 
 
             <!-- Total -->
             <div class="border-t border-gray-200 pt-6 mb-8">
               <div class="flex justify-between items-center text-xl font-bold">
                 <span class="text-gray-900">Total Amount:</span>
-                <span class="text-blue-600">₦{{ total_amount|floatformat:0 }}</span>
+
+                <!-- <span class="text-blue-600">₦{{ total_amount|floatformat:0 }}</span>
+                  -->
+                
+                <input type="text" name="amount" class="border-[1px] px-4 py-[10px] outline-none rounded-[15px] border-solid border-blue-200 block" />
               </div>
             </div>
-
+            <input type="text" hidden name="step" value="2" />
             <!-- Continue Button -->
-            <a href="{% url 'core:finalize_payment' %}?step=2" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-md font-medium text-lg transition-colors text-center block">
+            <!-- <a href="{% url 'app:finalize_payment' %}?step=2" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-md font-medium text-lg transition-colors text-center block">
               Make Payment Now
-            </a>
-          </div>
+            </a> -->
+
+            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-md font-medium text-lg transition-colors text-center block">Make payment</button>
+          </form>
         {% endif %}
 
         <!-- Step 2: Payment Instructions -->
@@ -228,7 +234,7 @@
             </div>
 
             <!-- Continue Button -->
-            <a href="{% url 'core:finalize_payment' %}?step=3" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-md font-medium text-lg transition-colors text-center block">
+            <a href="{% url 'app:finalize_payment' %}?step=3" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-md font-medium text-lg transition-colors text-center block">
               I Have Made Payment - Upload Proof
             </a>
           </div>
@@ -239,7 +245,7 @@
           <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Upload Payment Proof & Contact Details</h2>
 
-            <form id="payment-form" action="{% url 'core:finalize_payment_submit' %}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <form id="payment-form" action="{% url 'app:finalize_payment_submit' %}" method="POST" enctype="multipart/form-data" class="space-y-6">
               {% csrf_token %}
               <!-- Payment Proof Upload -->
               <div>
@@ -391,10 +397,10 @@
             </div>
 
             <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-              <a href="{% url 'core:home' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md font-medium transition-colors">
+              <a href="{% url 'app:home' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md font-medium transition-colors">
                 Return to Home
               </a>
-              <a href="{% url 'core:contact' %}" class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 rounded-md font-medium transition-colors">
+              <a href="{% url 'app:contact' %}" class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-3 rounded-md font-medium transition-colors">
                 Contact Support
               </a>
             </div>
@@ -417,10 +423,10 @@
         <div>
           <h3 class="text-lg font-bold mb-4">Quick Links</h3>
           <ul class="space-y-2">
-            <li><a href="{% url 'core:home' %}" class="text-gray-400 hover:text-white">Home</a></li>
-            <li><a href="{% url 'core:about' %}" class="text-gray-400 hover:text-white">About</a></li>
-            <li><a href="{% url 'core:services' %}" class="text-gray-400 hover:text-white">Services</a></li>
-            <li><a href="{% url 'core:contact' %}" class="text-gray-400 hover:text-white">Contact</a></li>
+            <li><a href="{% url 'app:home' %}" class="text-gray-400 hover:text-white">Home</a></li>
+            <li><a href="{% url 'app:about' %}" class="text-gray-400 hover:text-white">About</a></li>
+            <li><a href="{% url 'app:services' %}" class="text-gray-400 hover:text-white">Services</a></li>
+            <li><a href="{% url 'app:contact' %}" class="text-gray-400 hover:text-white">Contact</a></li>
           </ul>
         </div>
         <div>
@@ -518,6 +524,27 @@
 
     // Initial validation
     if (form) validateForm();
+
+
+  //  document.addEventListener('DOMContentLoaded', function () {
+  //   const form = document.querySelector('.firstform');
+  //   const amountInput = document.querySelector('input[name="amount"]');
+
+  //   form.addEventListener('submit', function (e) {
+  //     const amount = encodeURIComponent(amountInput.value.trim());
+
+  //     // Don't submit the form until we update the action
+  //     e.preventDefault();
+
+  //     if (amount) {
+  //       const baseAction = form.getAttribute('action'); // Django renders this as the base URL
+  //       form.setAttribute('action', `${baseAction}?step=2&amount=${amount}`);
+  //       form.submit(); // manually trigger form submission after updating the action
+  //     } else {
+  //       alert('Please enter an amount before proceeding.');
+  //     }
+  //   });
+  // });
   </script>
 </body>
 </html>

@@ -40,6 +40,7 @@ urlpatterns = [
     # path('testimonials/', views.testimonials_view, name='testimonials'),
     # path('faq/', views.faq_view, name='faq'),
     path('finalize-payment/', views.finalize_payment_view, name='finalize_payment'),
+    path('finalize-payment-review/', views.finalize_payment_review_view, name='finalize_payment_review'),
     path('finalize-payment-submit/', views.finalize_payment_submit_view, name='finalize_payment_submit'),
     path('consultation-complete/', views.consultation_complete_view, name='consultation_complete'),
 ] 
