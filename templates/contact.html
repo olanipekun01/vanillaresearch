@@ -6,6 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact - ResearchSupportDesk</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+        }
+
+        #xBar {
+            display: none;
+        }
+
+        #menuBar.active {
+            display: none;
+        }
+
+        #navBar.active {
+            display: flex;
+        }
+
+        #xBar.active {
+            display: flex;
+        }
+
+  </style>
 </head>
 <body class="min-h-screen bg-gray-50">
   {% if messages %}
@@ -25,7 +49,7 @@
         <div class="text-2xl font-bold text-gray-900">
           RESEARCH<span class="text-blue-600">SupportDesk</span>
         </div>
-        <div class="hidden md:flex items-center space-x-8">
+        <!-- <div class="hidden md:flex items-center space-x-8">
           <a href="{% url 'app:home' %}" class="text-gray-600 hover:text-blue-600 transition-colors">Home</a>
           <a href="{% url 'app:about' %}" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
           <a href="{% url 'app:services' %}" class="text-gray-600 hover:text-blue-600 transition-colors">Services</a>
@@ -33,7 +57,22 @@
         </div>
         <button id="get-started-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium transition-colors">
           Get Started
-        </button>
+        </button> -->
+
+        <div class="bg-white py-[10px] px-[30px] gap-5 w-[100%] md:flex items-center md:space-x-8 lg:justify-between lg:w-[65%] hidden absolute left-0 top-[70px] z-20  items-start flex-col lg:flex lg:flex-row lg:static lg:bg-transparent lg:space-x-3 lg:px-0" id="navBar">
+            <a href="/" class="text-blue-600 lg:text-blue-600 hover:text-blue-300 transition-colors">Home</a>
+            <a href="/about" class="text-blue-600  lg:text-blue-600 hover:text-blue-300 transition-colors">About</a>
+            <a href="/services" class="text-blue-600  lg:text-blue-600 hover:text-blue-300 transition-colors">Services</a>
+            <a href="/contact" class="text-blue-600  lg:text-blue-600 hover:text-blue-300 transition-colors">Contact</a>
+             <a href="/finalize-payment" class="text-blue-600  lg:text-blue-600 hover:text-blue-300 transition-colors">Finalize Payemnt</a>
+            <button onclick="window.location.href='/services'" class="bg-blue-600 hover:bg-blue-700 lg:ml-5 text-white px-8 py-3 text-lg rounded-md font-medium transition-colors">
+            Book a Consultation
+            </button>
+        </div>
+
+        <img class="w-[40px] lg:hidden" id="menuBar" src="https://res.cloudinary.com/dztirmlfv/image/upload/v1738930587/bx-menu_ew07ve.svg" alt="" />
+        <img class="w-[40px] lg:hidden" id="xBar" src="https://res.cloudinary.com/dztirmlfv/image/upload/v1738930587/bx-x_tfiznr.svg" alt="" />
+
       </div>
     </div>
   </nav>
@@ -369,12 +408,29 @@
         `;
       });
 
-      document.getElementById('get-started-btn').addEventListener('click', () => {
-        window.location.href = "{% url 'app:services' %}";
-      });
+      // document.getElementById('get-started-btn').addEventListener('click', () => {
+      //   window.location.href = "{% url 'app:services' %}";
+      // });
 
       // Initial validation
       validateForm();
+
+      const menuBar = document.getElementById('menuBar');
+      const navBar = document.getElementById('navBar');
+      const xRegular = document.getElementById('xBar');
+      const faqs = document.querySelectorAll(".faq");
+
+      menuBar.addEventListener("click", function () {
+          navBar.classList.toggle('active');
+          xRegular.classList.toggle('active');
+          menuBar.classList.toggle('active');
+      });
+
+      xRegular.addEventListener("click", function() {
+          navBar.classList.toggle('active');
+          xRegular.classList.toggle('active');
+          menuBar.classList.toggle('active');
+      })
     </script>
 </body>
 </html>
